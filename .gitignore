@@ -1,0 +1,79 @@
+_ReSharper.Caches/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# MSVC
+*.user
+*.vsp
+*.suo
+*.sdf
+*.psess
+*.opensdf
+*.vspx
+
+/.vs
+/ipch
+/Debug
+/Release
+/x64
+
+*/bin
+*/obj
+*/Debug
+*/Release
+*/x64
+/External/gplex
+/External/gppg
+/External/bullet-2.77
+/External/protoc
+/External/protobuf-3.6.1
+/External/vcpkg-master
+/External/x64-windows
+/External/Glasses
+/External/*.zip
+/TestApp
+/packages
+LSTools.VC.db
+*.opendb
+
+# Generated GpLex/GpPg files
+*.lex.cs
+*.yy.cs
+
+# Generated Protobuf files
+DebuggerFrontend/osidebug.pb.h
+DebuggerFrontend/osidebug.pb.cc
+DebuggerFrontend/Osidebug.cs
+StoryCompiler/Debuginfo.cs
+DebuggerFrontend/Debuginfo.cs
+DebuggerFrontend/DbgProtocol.cs
+WwiseTool
+UnpackGrid/Properties/launchSettings.json
+TerrainFixup/Properties/launchSettings.json
