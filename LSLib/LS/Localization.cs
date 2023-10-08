@@ -1,14 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using LZ4;
-using File = Alphaleonis.Win32.Filesystem.File;
-using LSLib.LS.Enums;
 using System.Collections.Generic;
 using System.Xml;
-using System.Diagnostics;
 
 namespace LSLib.LS
 {
@@ -130,10 +125,12 @@ namespace LSLib.LS
         {
             using (var writer = new BinaryWriter(stream))
             {
-                var header = new LocaHeader {
+                var header = new LocaHeader
+                {
                     Signature = LocaHeader.DefaultSignature,
                     NumEntries = (uint)res.Entries.Count,
-                    TextsOffset = (uint)(Marshal.SizeOf(typeof(LocaHeader)) + Marshal.SizeOf(typeof(LocaEntry)) * res.Entries.Count)
+                    TextsOffset = (uint)(Marshal.SizeOf(typeof(LocaHeader)) +
+                                         Marshal.SizeOf(typeof(LocaEntry)) * res.Entries.Count)
                 };
                 BinUtils.WriteStruct<LocaHeader>(writer, ref header);
 
@@ -160,6 +157,7 @@ namespace LSLib.LS
             }
         }
     }
+
     public class LocaXmlReader : IDisposable
     {
         private Stream stream;
@@ -303,20 +301,20 @@ namespace LSLib.LS
             switch (format)
             {
                 case LocaFormat.Loca:
+                {
+                    using (var reader = new LocaReader(stream))
                     {
-                        using (var reader = new LocaReader(stream))
-                        {
-                            return reader.Read();
-                        }
+                        return reader.Read();
                     }
+                }
 
                 case LocaFormat.Xml:
+                {
+                    using (var reader = new LocaXmlReader(stream))
                     {
-                        using (var reader = new LocaXmlReader(stream))
-                        {
-                            return reader.Read();
-                        }
+                        return reader.Read();
                     }
+                }
 
                 default:
                     throw new ArgumentException("Invalid loca format");
@@ -337,18 +335,18 @@ namespace LSLib.LS
                 switch (format)
                 {
                     case LocaFormat.Loca:
-                        {
-                            var writer = new LocaWriter(file);
-                            writer.Write(resource);
-                            break;
-                        }
+                    {
+                        var writer = new LocaWriter(file);
+                        writer.Write(resource);
+                        break;
+                    }
 
                     case LocaFormat.Xml:
-                        {
-                            var writer = new LocaXmlWriter(file);
-                            writer.Write(resource);
-                            break;
-                        }
+                    {
+                        var writer = new LocaXmlWriter(file);
+                        writer.Write(resource);
+                        break;
+                    }
 
                     default:
                         throw new ArgumentException("Invalid loca format");
