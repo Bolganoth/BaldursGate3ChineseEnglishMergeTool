@@ -52,6 +52,10 @@ namespace CEMerge
                         reviseMap[reviseElement.GetAttribute("contentuid")] = reviseElement.InnerText;
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Revise text not exists.");
+                }
 
                 var sw = new StreamWriter(writePathName);
                 string englishText;
