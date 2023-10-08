@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace LSLib
+namespace CEMerge
 {
     /**
  * 中英合并工具类，用于辅助中英文本的合并

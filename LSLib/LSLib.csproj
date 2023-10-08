@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{46372C50-4288-4B8E-AF21-C934560600E0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LSLib</RootNamespace>
     <AssemblyName>LSLib</AssemblyName>
@@ -47,14 +47,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlphaFS, Version=2.2.0.0, Culture=neutral, PublicKeyToken=4d31a58f7d7ad5c9, processorArchitecture=MSIL">
-      <HintPath>..\packages\AlphaFS.2.2.6\lib\net452\AlphaFS.dll</HintPath>
+    <Reference Include="AlphaFS">
+      <HintPath>lib\AlphaFS.dll</HintPath>
     </Reference>
-    <Reference Include="LZ4, Version=1.0.15.93, Culture=neutral, PublicKeyToken=62e1b5ec1eec9bdd, processorArchitecture=MSIL">
-      <HintPath>..\packages\lz4net.1.0.15.93\lib\net4-client\LZ4.dll</HintPath>
+    <Reference Include="LSLibNative">
+      <HintPath>lib\LSLibNative.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="LZ4">
+      <HintPath>lib\LZ4.dll</HintPath>
     </Reference>
     <Reference Include="QUT.ShiftReduceParser">
       <HintPath>..\external\gppg\binaries\QUT.ShiftReduceParser.dll</HintPath>
@@ -67,14 +67,11 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
+    <Reference Include="zlib.net">
+      <HintPath>lib\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CemBaldursGate3.cs" />
-    <Compile Include="CemTool.cs" />
     <Compile Include="LS\Localization.cs" />
     <Compile Include="LS\BinUtils.cs" />
     <Compile Include="LS\Common.cs" />
@@ -93,15 +90,8 @@
     <Compile Include="LS\PackageWriter.cs" />
     <Compile Include="LS\PackageCommon.cs" />
     <Compile Include="LS\Resource.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LSLibNative\LSLibNative.vcxproj">
-      <Project>{d8b26b12-e45c-47ea-88f7-56628eb2ccd1}</Project>
-      <Name>LSLibNative</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="LS\Stats\Parser\Stat.yy" />
@@ -115,20 +105,6 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)\external\gppg\binaries\GpLex" /out:"$(ProjectDir)\LS\Story\GoalParser\Goal.lex.cs" "$(ProjectDir)\LS\Story\GoalParser\Goal.lex"
-"$(SolutionDir)\external\gppg\binaries\Gppg" /out:"$(ProjectDir)\LS\Story\GoalParser\Goal.yy.cs" "$(ProjectDir)\LS\Story\GoalParser\Goal.yy"
-
-"$(SolutionDir)\external\gppg\binaries\GpLex" /out:"$(ProjectDir)\LS\Story\HeaderParser\StoryHeader.lex.cs" "$(ProjectDir)\LS\Story\HeaderParser\StoryHeader.lex"
-"$(SolutionDir)\external\gppg\binaries\Gppg" /out:"$(ProjectDir)\LS\Story\HeaderParser\StoryHeader.yy.cs" "$(ProjectDir)\LS\Story\HeaderParser\StoryHeader.yy"
-
-"$(SolutionDir)\external\gppg\binaries\GpLex" /out:"$(ProjectDir)\LS\Stats\Parser\Stat.lex.cs" "$(ProjectDir)\LS\Stats\Parser\Stat.lex"
-"$(SolutionDir)\external\gppg\binaries\Gppg" /out:"$(ProjectDir)\LS\Stats\Parser\Stat.yy.cs" "$(ProjectDir)\LS\Stats\Parser\Stat.yy"
-
-"$(SolutionDir)\external\gppg\binaries\GpLex" /out:"$(ProjectDir)\LS\Stats\Parser\StatProperty.lex.cs" "$(ProjectDir)\LS\Stats\Parser\StatProperty.lex"
-"$(SolutionDir)\external\gppg\binaries\Gppg" /out:"$(ProjectDir)\LS\Stats\Parser\StatProperty.yy.cs" "$(ProjectDir)\LS\Stats\Parser\StatProperty.yy"
-</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

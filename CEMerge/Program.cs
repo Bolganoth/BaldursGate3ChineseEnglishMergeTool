@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using LSLib.LS;
-using LSLib.LS.Enums;
 
-namespace LSLib
+namespace CEMerge
 {
     internal class Program
     {
-        public static void CreatePackage(String createSrcPath, String createPackagePath)
-        {
-            try
-            {
-                var options = new PackageCreationOptions();
-                options.Version = PackageVersion.V18;
-                options.Compression = CompressionMethod.LZ4;
-                options.Priority = 0;
-
-                var packager = new Packager();
-                packager.CreatePackage(createPackagePath, createSrcPath, options);
-
-                Console.WriteLine("Package created successfully.");
-            }
-            catch (Exception exc)
-            {
-                Console.WriteLine($"Internal error!{Environment.NewLine}{Environment.NewLine}{exc}");
-            }
-        }
+        // public static void CreatePackage(String createSrcPath, String createPackagePath)
+        // {
+        //     try
+        //     {
+        //         var options = new PackageCreationOptions();
+        //         options.Version = PackageVersion.V18;
+        //         options.Compression = CompressionMethod.LZ4;
+        //         options.Priority = 0;
+        //
+        //         var packager = new Packager();
+        //         packager.CreatePackage(createPackagePath, createSrcPath, options);
+        //
+        //         Console.WriteLine("Package created successfully.");
+        //     }
+        //     catch (Exception exc)
+        //     {
+        //         Console.WriteLine($"Internal error!{Environment.NewLine}{Environment.NewLine}{exc}");
+        //     }
+        // }
 
         private static void ExtractPackage(String extractPackagePath, String extractionPath)
         {

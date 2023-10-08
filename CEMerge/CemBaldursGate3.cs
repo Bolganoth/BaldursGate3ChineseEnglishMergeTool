@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace LSLib
+namespace CEMerge
 {
     public class CemBaldursGate3
     {
