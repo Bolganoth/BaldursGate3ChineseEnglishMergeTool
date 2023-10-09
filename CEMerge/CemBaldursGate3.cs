@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using LSLib.LS;
 
 namespace CEMerge
 {
@@ -17,9 +19,10 @@ namespace CEMerge
          * 个人修正文件需和中英文本格式相同
          */
 
-        public static void MergeTranslations(string englishPathName, string chinesePathName, string writePathName, string personalRevisePathName)
+        public static void MergeTranslations(string englishPathName, string chinesePathName, string writePathName,
+            string personalRevisePathName)
         {
-            Console.WriteLine("Merging Localizations...");
+            Console.WriteLine("Merging localizations...");
             bool personalReviseExist = File.Exists(personalRevisePathName);
             var cem = new CemTool();
             string[] parameters = { "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]" };
@@ -33,6 +36,7 @@ namespace CEMerge
                 englishDocument.Load(englishPathName);
                 var chineseDocumentList = chineseDocument.SelectSingleNode("contentList"); //读取后的中文内容list
                 var englishDocumentList = englishDocument.SelectSingleNode("contentList"); //读取后的英文内容list
+                Trace.Assert(englishDocumentList != null, nameof(englishDocumentList) + " != null");
                 foreach (XmlElement englishElement in englishDocumentList)
                 {
                     //将英文uid和文本存入map便于查询
@@ -47,6 +51,7 @@ namespace CEMerge
                     XmlDocument reviseDocument = new XmlDocument();
                     reviseDocument.Load(personalRevisePathName);
                     var reviseDocumentList = reviseDocument.SelectSingleNode("contentList");
+                    Trace.Assert(reviseDocumentList != null, nameof(reviseDocumentList) + " != null");
                     foreach (XmlElement reviseElement in reviseDocumentList)
                     {
                         reviseMap[reviseElement.GetAttribute("contentuid")] = reviseElement.InnerText;
@@ -54,7 +59,7 @@ namespace CEMerge
                 }
                 else
                 {
-                    Console.WriteLine("Revise text not exists.");
+                    Console.WriteLine("Revise text does not exists.");
                 }
 
                 var sw = new StreamWriter(writePathName);
@@ -63,6 +68,7 @@ namespace CEMerge
                 string mergedText;
                 string mergedCoreText;
                 sw.WriteLine("<contentList>"); //开头写入一个<contentList>
+                Trace.Assert(chineseDocumentList != null, nameof(chineseDocumentList) + " != null");
                 foreach (XmlElement chineseElement in chineseDocumentList)
                 {
                     //将中文文本取出与英文文本合并再存入文件
@@ -126,6 +132,7 @@ namespace CEMerge
             {
                 Console.Write(e.ToString());
             }
+
             Console.WriteLine("Localizations merged successfully.\n");
         }
 
@@ -135,6 +142,54 @@ namespace CEMerge
             text = text.Replace("<", "&lt;");
             text = text.Replace(">", "&gt;");
             return text;
+        }
+
+        public static void Main(string[] args)
+        {
+            var dataPath = Path.GetFullPath("..\\Data");
+            var englishPakCheck = "\\Localization\\English.pak";
+            var chinesePakCheck = "\\Localization\\Chinese\\Chinese.pak";
+            if (!File.Exists(Path.GetFullPath(dataPath + englishPakCheck)) ||
+                !File.Exists(Path.GetFullPath(dataPath + chinesePakCheck)))
+            {
+                Console.WriteLine(
+                    "Cannot find localization package, please manually enter absolute path of \'Data\' directory.");
+                dataPath = Console.ReadLine();
+                if (!File.Exists(Path.GetFullPath(dataPath + englishPakCheck)) ||
+                    !File.Exists(Path.GetFullPath(dataPath + chinesePakCheck)))
+                {
+                    Console.WriteLine("Failed to locate \'Data\' directory.\nPress any key to exit.");
+                    Console.ReadKey();
+                    return;
+                }
+            }
+
+            var englishPackagePath = dataPath + "\\Localization\\English.pak";
+            var tempMergeDir = dataPath + "\\Localization\\CEMerge";
+            var englishPackageExtractPath = dataPath + "\\Localization\\CEMerge\\English";
+            var englishLocaPath = dataPath + "\\Localization\\CEMerge\\English\\Localization\\English\\english.loca";
+            var englishXmlPath = dataPath + "\\Localization\\CEMerge\\English\\Localization\\English\\english.xml";
+            var chinesePackagePath = dataPath + "\\Localization\\Chinese\\Chinese.pak";
+            var chinesePackageExtractPath = dataPath + "\\Localization\\CEMerge\\Chinese";
+            var chineseLocaPath = dataPath + "\\Localization\\CEMerge\\Chinese\\Localization\\Chinese\\chinese.loca";
+            var chineseXmlPath = dataPath + "\\Localization\\CEMerge\\Chinese\\Localization\\Chinese\\chinese.xml";
+            var mergeLocaPath = dataPath + "\\Localization\\Chinese\\chinese.loca";
+            var mergeXmlPath = dataPath + "\\Localization\\Chinese\\chinese.xml";
+            var personalRevisePath = Path.GetFullPath("BG3MergeChange.xml");
+
+            Util.ExtractPackage(englishPackagePath, englishPackageExtractPath);
+            Util.ExtractPackage(chinesePackagePath, chinesePackageExtractPath);
+            Util.LocalizationConvert(englishLocaPath, englishXmlPath);
+            Util.LocalizationConvert(chineseLocaPath, chineseXmlPath);
+            MergeTranslations(englishXmlPath, chineseXmlPath, mergeXmlPath, personalRevisePath);
+            Util.LocalizationConvert(mergeXmlPath, mergeLocaPath);
+            Console.WriteLine("Deleting extra files...");
+            File.Delete(mergeXmlPath);
+            Directory.Delete(tempMergeDir, true);
+            Console.WriteLine("Files deleted.\n");
+            Console.WriteLine("Merge complete, merged file at:\n" + mergeLocaPath + "\n");
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
         }
     }
 }

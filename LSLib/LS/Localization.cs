@@ -196,7 +196,7 @@ namespace LSLib.LS
                     break;
 
                 default:
-                    throw new InvalidFormatException(String.Format("Unknown element encountered: {0}", reader.Name));
+                    throw new Exception(String.Format("Unknown element encountered: {0}", reader.Name));
             }
         }
 

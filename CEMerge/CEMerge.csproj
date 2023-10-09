@@ -43,7 +43,6 @@
     <ItemGroup>
         <Compile Include="CemBaldursGate3.cs" />
         <Compile Include="CemTool.cs" />
-        <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

@@ -121,7 +121,7 @@ namespace CEMerge
         {
             string mergedTextNew = mergedText.Replace("((", "(");
             mergedTextNew = mergedTextNew.Replace("))", ")");
-            if (!BracketMatched(mergedTextNew))
+            if (!BracketsMatched(mergedTextNew))
             {
                 return mergedText;
             }
@@ -130,22 +130,34 @@ namespace CEMerge
         }
 
 
-        private bool BracketMatched(String strs)
+        public static bool BracketsMatched(string input)
         {
-            var s = new Stack<char>();
-            foreach (var c in strs)
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in input)
             {
-                if (c == '(')
-                    s.Push(')');
-                else if (c == '[')
-                    s.Push(']');
-                else if (c == '{')
-                    s.Push('}');
-                else if (s.Count == 0 || c != s.Pop())
-                    return false;
+                if (c == '(' || c == '[' || c == '{')
+                {
+                    stack.Push(c);
+                }
+                else if (c == ')' || c == ']' || c == '}')
+                {
+                    if (stack.Count == 0 || !IsMatchingPair(stack.Peek(), c))
+                    {
+                        return false; // 括号不匹配
+                    }
+                    stack.Pop();
+                }
             }
 
-            return s.Count == 0;
+            return stack.Count == 0; // 所有括号都匹配成功才返回 true
+        }
+        
+        public static bool IsMatchingPair(char open, char close)
+        {
+            return (open == '(' && close == ')') ||
+                   (open == '[' && close == ']') ||
+                   (open == '{' && close == '}');
         }
 
 
@@ -184,7 +196,7 @@ namespace CEMerge
                 //在当前英文文本中查找有哪些预设参数
                 if (originalText.Contains(parameter))
                 {
-                    parametersIndex[parametersCount] = originalText.IndexOf(parameter);
+                    parametersIndex[parametersCount] = originalText.IndexOf(parameter, StringComparison.Ordinal);
                     parameterMap[parametersIndex[parametersCount]] = parameter;
                     parametersCount++;
                 }
@@ -201,7 +213,7 @@ namespace CEMerge
             for (int i = 0; i < parametersCount; i++)
             {
                 string sp = i == 0 ? originalText : splitTrans[2 * i];
-                int preTextEnd = sp.IndexOf(parameters[i]);
+                int preTextEnd = sp.IndexOf(parameters[i], StringComparison.Ordinal);
                 preTextEnd--;
                 int nextTextStart = preTextEnd + parameters[i].Length;
                 nextTextStart++;
@@ -235,7 +247,7 @@ namespace CEMerge
             //以上，将英文文本按照参数切分成文本参数文本参数间隔的形式存入splitTrans
             for (j = 0; j < parametersCount; j++)
             {
-                cEnd = translation.IndexOf(splitTrans[2 * j + 1]);
+                cEnd = translation.IndexOf(splitTrans[2 * j + 1], StringComparison.Ordinal);
                 if (cEnd < cStart)
                 {
                     return "ChnAndEngGrammarOrderFail";

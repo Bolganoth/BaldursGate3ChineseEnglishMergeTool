@@ -65,32 +65,17 @@
   <ItemGroup>
     <Compile Include="LS\Localization.cs" />
     <Compile Include="LS\BinUtils.cs" />
-    <Compile Include="LS\Common.cs" />
     <Compile Include="LS\Enums\CompressionLevel.cs" />
     <Compile Include="LS\Enums\CompressionFlags.cs" />
     <Compile Include="LS\Enums\CompressionMethod.cs" />
-    <Compile Include="LS\Enums\LSFVersion.cs" />
-    <Compile Include="LS\Enums\Game.cs" />
-    <Compile Include="LS\Enums\LogLevel.cs" />
     <Compile Include="LS\Enums\PackageVersion.cs" />
-    <Compile Include="LS\Enums\ResourceFormat.cs" />
     <Compile Include="LS\FileManager.cs" />
-    <Compile Include="LS\Matrix.cs" />
-    <Compile Include="LS\NodeAttribute.cs" />
     <Compile Include="LS\PackageReader.cs" />
     <Compile Include="LS\PackageWriter.cs" />
     <Compile Include="LS\PackageCommon.cs" />
-    <Compile Include="LS\Resource.cs" />
+    <Compile Include="LS\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LS\Stats\Parser\Stat.yy" />
-    <Content Include="LS\Stats\Parser\StatProperty.yy" />
-    <Content Include="LS\Story\GoalParser\Goal.lex" />
-    <Content Include="LS\Story\GoalParser\Goal.yy" />
-    <Content Include="LS\Story\HeaderParser\StoryHeader.lex" />
-    <Content Include="LS\Story\HeaderParser\StoryHeader.yy" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
