@@ -12,6 +12,7 @@
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <ApplicationIcon>extract.ico</ApplicationIcon>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -49,6 +50,9 @@
         <Project>{46372c50-4288-4b8e-af21-c934560600e0}</Project>
         <Name>LSLib</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="extract.ico" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
