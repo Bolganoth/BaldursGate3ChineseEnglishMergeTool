@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertLoca", "ConvertLoca\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertXml", "ConvertXml\ConvertXml.csproj", "{69ACAE48-57B5-4FE7-A690-8D9C473B416D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegGenerate", "RegGenerate\RegGenerate.csproj", "{711DD55F-CC4F-4182-BBE9-705295BC97D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{69ACAE48-57B5-4FE7-A690-8D9C473B416D}.RelWithDebInfo|Any CPU.Build.0 = Debug|Any CPU
 		{69ACAE48-57B5-4FE7-A690-8D9C473B416D}.RelWithDebInfo|x64.ActiveCfg = Debug|Any CPU
 		{69ACAE48-57B5-4FE7-A690-8D9C473B416D}.RelWithDebInfo|x64.Build.0 = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Debug|x64.Build.0 = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Release|x64.ActiveCfg = Release|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Release|x64.Build.0 = Release|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.RelWithDebInfo|Any CPU.ActiveCfg = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.RelWithDebInfo|Any CPU.Build.0 = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.RelWithDebInfo|x64.ActiveCfg = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.RelWithDebInfo|x64.Build.0 = Debug|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{711DD55F-CC4F-4182-BBE9-705295BC97D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
