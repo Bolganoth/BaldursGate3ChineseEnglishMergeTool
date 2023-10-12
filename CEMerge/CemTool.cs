@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CEMerge
-{
+namespace CEMerge {
     /**
  * 中英合并工具类，用于辅助中英文本的合并
  */
-    public class CemTool
-    {
+    public class CemTool {
         private readonly Regex _regex = new Regex("\\(.\\)");
 
         /**
      * 基础合并
      */
-        public string Merge(string translation, string originalText)
-        {
+        public string Merge(string translation, string originalText) {
             return translation + "(" + originalText + ")";
         }
 
@@ -25,19 +22,14 @@ namespace CEMerge
      * 文本相同不合并
      * 文本中含有换行则合并后中英文本之间也有换行
      */
-        public string OptimizedMerge(string translation, string originalText)
-        {
-            if (translation.Equals(originalText))
-            {
+        public string OptimizedMerge(string translation, string originalText) {
+            if (translation.Equals(originalText)) {
                 return translation;
             }
 
-            if (translation.Contains("\n"))
-            {
-                if (originalText.EndsWith("\n"))
-                {
-                    if (originalText.EndsWith("\r\n"))
-                    {
+            if (translation.Contains("\n")) {
+                if (originalText.EndsWith("\n")) {
+                    if (originalText.EndsWith("\r\n")) {
                         return (translation + "(" + originalText + ")").Replace("\r\n)", ")");
                     }
 
@@ -47,10 +39,8 @@ namespace CEMerge
                 return translation + "\n(" + originalText + ")";
             }
 
-            if (translation.Contains("<br>"))
-            {
-                if (originalText.EndsWith("<br>"))
-                {
+            if (translation.Contains("<br>")) {
+                if (originalText.EndsWith("<br>")) {
                     return (translation + "(" + originalText + ")").Replace("<br>)", ")");
                 }
 
@@ -65,10 +55,8 @@ namespace CEMerge
      * 如 他说：(He said:)（XXX)
      * 将会替换为 他说(He said):（XXX)
      */
-        public string ColonOptimize(string mergedText)
-        {
-            if (mergedText.Contains("：(") && mergedText.Contains(":)"))
-            {
+        public string ColonOptimize(string mergedText) {
+            if (mergedText.Contains("：(") && mergedText.Contains(":)")) {
                 mergedText = mergedText.Replace("：(", "(");
                 mergedText = mergedText.Replace(":)", "):");
             }
@@ -79,8 +67,7 @@ namespace CEMerge
         /**
      * 中文标点优化
      */
-        public string ChinesePunctuationToEnglish(String mergedText)
-        {
+        public string ChinesePunctuationToEnglish(String mergedText) {
             mergedText = mergedText.Replace("！", "!");
             mergedText = mergedText.Replace("—", "-");
             mergedText = mergedText.Replace("？", "?");
@@ -93,8 +80,7 @@ namespace CEMerge
         /**
      * html标签优化，目前只有b和i
      */
-        public string HtmlTagsOptimize(String mergedText)
-        {
+        public string HtmlTagsOptimize(String mergedText) {
             mergedText = mergedText.Replace("{/b}({b}", "(");
             mergedText = mergedText.Replace("{/i}({i}", "(");
             mergedText = mergedText.Replace("{/b})", "){/b}");
@@ -106,8 +92,7 @@ namespace CEMerge
             mergedText = mergedText.Replace("<br>(<br>)", "<br>");
             mergedText = mergedText.Replace("<br><br>(", "<br>(");
             mergedText = mergedText.Replace("<br><br>(", "<br>(");
-            while (mergedText.EndsWith("<br>)"))
-            {
+            while (mergedText.EndsWith("<br>)")) {
                 mergedText = mergedText.Replace("<br>)", ")");
             }
 
@@ -117,12 +102,10 @@ namespace CEMerge
         /**
      * 双重括号优化
      */
-        public string DoubleBracketOptimize(String mergedText)
-        {
+        public string DoubleBracketOptimize(String mergedText) {
             string mergedTextNew = mergedText.Replace("((", "(");
             mergedTextNew = mergedTextNew.Replace("))", ")");
-            if (!BracketsMatched(mergedTextNew))
-            {
+            if (!BracketsMatched(mergedTextNew)) {
                 return mergedText;
             }
 
@@ -130,49 +113,40 @@ namespace CEMerge
         }
 
 
-        public static bool BracketsMatched(string input)
-        {
+        public static bool BracketsMatched(string input) {
             Stack<char> stack = new Stack<char>();
 
-            foreach (char c in input)
-            {
-                if (c == '(' || c == '[' || c == '{')
-                {
+            foreach (char c in input) {
+                if (c == '(' || c == '[' || c == '{') {
                     stack.Push(c);
                 }
-                else if (c == ')' || c == ']' || c == '}')
-                {
-                    if (stack.Count == 0 || !IsMatchingPair(stack.Peek(), c))
-                    {
+                else if (c == ')' || c == ']' || c == '}') {
+                    if (stack.Count == 0 || !IsMatchingPair(stack.Peek(), c)) {
                         return false; // 括号不匹配
                     }
+
                     stack.Pop();
                 }
             }
 
             return stack.Count == 0; // 所有括号都匹配成功才返回 true
         }
-        
-        public static bool IsMatchingPair(char open, char close)
-        {
+
+        public static bool IsMatchingPair(char open, char close) {
             return (open == '(' && close == ')') ||
                    (open == '[' && close == ']') ||
                    (open == '{' && close == '}');
         }
 
 
-        public bool ContainsModifierParameters(String text, String[] inputParameters)
-        {
+        public bool ContainsModifierParameters(String text, String[] inputParameters) {
             bool contains = false;
-            foreach (String modifierParameter in inputParameters)
-            {
-                if (text == null)
-                {
+            foreach (String modifierParameter in inputParameters) {
+                if (text == null) {
                     return false;
                 }
 
-                if (text.Contains(modifierParameter))
-                {
+                if (text.Contains(modifierParameter)) {
                     contains = true;
                     break;
                 }
@@ -185,17 +159,14 @@ namespace CEMerge
      * 处理带有参数的文本
      */
         public string DealWithStringsWithParameters(string translation, string originalText, string[] inputParameters,
-            bool paramsHaveBoldTag)
-        {
+            bool paramsHaveBoldTag) {
             int parametersCount = 0; //文本中包含的预设参数的数量
             var parameterMap = new Dictionary<int, string>(); //映射
             var parameters = new string[inputParameters.Length];
             var parametersIndex = new int[inputParameters.Length];
-            foreach (string parameter in inputParameters)
-            {
+            foreach (string parameter in inputParameters) {
                 //在当前英文文本中查找有哪些预设参数
-                if (originalText.Contains(parameter))
-                {
+                if (originalText.Contains(parameter)) {
                     parametersIndex[parametersCount] = originalText.IndexOf(parameter, StringComparison.Ordinal);
                     parameterMap[parametersIndex[parametersCount]] = parameter;
                     parametersCount++;
@@ -203,39 +174,33 @@ namespace CEMerge
             }
 
             Array.Sort(parametersIndex, 0, parametersCount);
-            for (int i = 0; i < parametersCount; i++)
-            {
+            for (int i = 0; i < parametersCount; i++) {
                 parameters[i] = parameterMap[parametersIndex[i]];
             }
 
             //以上，将参数按在文本中出现的顺序排好，放入parameters数组中
             String[] splitTrans = new String[2 * parametersCount + 1];
-            for (int i = 0; i < parametersCount; i++)
-            {
+            for (int i = 0; i < parametersCount; i++) {
                 string sp = i == 0 ? originalText : splitTrans[2 * i];
                 int preTextEnd = sp.IndexOf(parameters[i], StringComparison.Ordinal);
                 preTextEnd--;
                 int nextTextStart = preTextEnd + parameters[i].Length;
                 nextTextStart++;
-                while (preTextEnd >= 0 && sp[preTextEnd] == ' ')
-                {
+                while (preTextEnd >= 0 && sp[preTextEnd] == ' ') {
                     preTextEnd--;
                 }
 
-                while (nextTextStart < sp.Length && sp[nextTextStart] == ' ')
-                {
+                while (nextTextStart < sp.Length && sp[nextTextStart] == ' ') {
                     nextTextStart++;
                 }
 
                 splitTrans[i * 2] = sp.Substring(0, preTextEnd + 1);
                 string boldTagedParameter = "<b>" + parameters[i] + "</b>";
-                if (paramsHaveBoldTag && translation.Contains(boldTagedParameter))
-                {
+                if (paramsHaveBoldTag && translation.Contains(boldTagedParameter)) {
                     //如果有<b>标签则算入
                     splitTrans[i * 2 + 1] = boldTagedParameter;
                 }
-                else
-                {
+                else {
                     splitTrans[i * 2 + 1] = parameters[i];
                 }
 
@@ -245,11 +210,9 @@ namespace CEMerge
             StringBuilder merge = new StringBuilder();
             int cStart = 0, cEnd, j;
             //以上，将英文文本按照参数切分成文本参数文本参数间隔的形式存入splitTrans
-            for (j = 0; j < parametersCount; j++)
-            {
+            for (j = 0; j < parametersCount; j++) {
                 cEnd = translation.IndexOf(splitTrans[2 * j + 1], StringComparison.Ordinal);
-                if (cEnd < cStart)
-                {
+                if (cEnd < cStart) {
                     return "ChnAndEngGrammarOrderFail";
                 }
 
